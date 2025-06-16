@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Rock, Paper, Scissors</h1>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+    <div id="result"></div>
+
+    <script>
+        let humanScore = 0;
+        let computerScore = 0;
+
+        function getComputerChoice() {
+
+            let computerChoice = Math.floor(Math.random() * 3);
+
+            if (computerChoice === 2) {
+                return 'Rock';
+            } else if (computerChoice === 1) {
+                return 'Paper';
+            } else if (computerChoice === 0) {
+                return 'Scissors';
+            }
+        }
+
+        function getHumanChoice() {
+            let choice = prompt("Rock, Paper or Scissors?");
+
+            return choice.toLowerCase();
+        }
+
+        function playRound(humanChoice, computerChoice) {
+            const human = humanChoice.toLowerCase();
+            const computer = computerChoice.toLowerCase();
+            let result = '';
+
+            if (human === computer) {
+                result = `It's a tie! You both chose ${human}`;
+            } else if (
+                (human === 'paper' && computer === 'rock') ||
+                (human === 'scissors' && computer === 'paper') ||
+                (human === 'rock' && computer === 'scissors')
+            ) {
+                result = `You win! ${human} beats ${computer}`;
+                humanScore++;
+            } else {
+                result = `You lose! ${computer} beats ${human}`
+                computerScore++;
+            }
+
+            result += `\nCurrent score = You: ${humanScore} vs Computer: ${computerScore}`;
+
+            if (humanScore === 5 || computerScore === 5) {
+                result += `\nGame over! ${humanScore === 5 ? `\nYou win!`:`\nComputer wins!`}`;
+                document.querySelectorAll("button").forEach(btn => btn.disabled=true);
+            }
+
+            resultDiv.innerText = result;
+        }
+
+        const resultDiv = document.getElementById("result");
+
+        document.getElementById("rock").addEventListener("click", () => {
+            playRound("rock", getComputerChoice())
+        });
+        document.getElementById("paper").addEventListener("click", () => {
+            playRound("paper", getComputerChoice())
+        });
+        document.getElementById("scissors").addEventListener("click", () => {
+            playRound("scissors", getComputerChoice())
+        });
+    </script>
+</body>
+
+</html>
